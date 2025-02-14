@@ -6,14 +6,14 @@ from config import settings
 
 DATABASE_URL = settings.DATABASE_URL
 engine = create_async_engine(DATABASE_URL, echo=True)
-#pool_size =5, max_overflow= 10
+
 
 async_session = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
 # Function to initialize the database
 async def init_db():
     async with engine.begin() as conn:
-        await conn.run_sync(SQLModel.metadata.drop_all)
+        #await conn.run_sync(SQLModel.metadata.drop_all)
         await conn.run_sync(SQLModel.metadata.create_all)
 
 # Dependency to get the database session

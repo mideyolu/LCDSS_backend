@@ -7,7 +7,7 @@ from log import delete_old_logs
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 import os
 
-# Disable OneDNN optimizations (move this to your application's entry point, e.g., main.py)
+# Disable OneDNN optimizations
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 
 

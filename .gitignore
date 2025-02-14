@@ -85,6 +85,8 @@ celerybeat-schedule
 # Environments
 .env
 .venv
+lcd
+lcd/
 env/
 venv/
 ENV/
