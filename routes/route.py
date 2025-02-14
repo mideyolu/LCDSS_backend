@@ -29,6 +29,12 @@ from services.patient_service import PatientService
 router = APIRouter()
 
 
+# **Status Check**
+@router.get("/home")
+async def home():
+    return {"Message": "Live"}
+
+
 # ======================
 ## Authentication Service
 # ======================
