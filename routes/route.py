@@ -34,7 +34,6 @@ router = APIRouter()
 async def home():
     return {"Message": "Live"}
 
-
 # ======================
 ## Authentication Service
 # ======================

@@ -17,7 +17,6 @@ async def close_db_connections():
     await engine.dispose()
 
 
-
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup logic
