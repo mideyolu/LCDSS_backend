@@ -20,7 +20,7 @@ from utils import get_current_provider
 from database import get_db
 from typing import List
 
-from services.route_services import detect_service
+from services.detect_services import detect_service
 from services.auth_service import AuthenticationService
 from services.stats_service import DashboardService
 from services.patient_service import PatientService

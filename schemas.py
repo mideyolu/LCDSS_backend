@@ -14,14 +14,6 @@ class ProviderLogin(BaseModel):
 class Response(BaseModel):
     message: str
 
-# class LoginToken(BaseModel):
-#     access_token: str
-#     token_type: str
-#     provider_id: int
-#     provider_username: str
-#     provider_email: str
-
-
 class MessageResponse(BaseModel):
     message: str
 
