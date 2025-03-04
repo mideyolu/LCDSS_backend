@@ -8,7 +8,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 import os
 
 # Disable OneDNN optimizations
-os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
 
 
 async def close_db_connections():
@@ -32,7 +32,6 @@ async def lifespan(app: FastAPI):
         async with async_session() as session:
             deleted_count = await delete_old_logs(session)
 
-
     scheduler.start()
     await cleanup_logs()  # Ensure initial cleanup on startup
 
@@ -50,9 +49,13 @@ app = FastAPI(lifespan=lifespan)
 # Add CORS middleware to allow requests from specific origins (for development use)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # Allows all origins, change to specific URLs for production
+    allow_origins=[
+        "https://respirix-ashy.vercel.app"
+    ],  # Allows all origins, change to specific URLs for production
     allow_credentials=True,
-    allow_methods=["*"],  # Allows all HTTP methods (GET, POST, PUT, DELETE, OPTIONS, etc.)
+    allow_methods=[
+        "*"
+    ],  # Allows all HTTP methods (GET, POST, PUT, DELETE, OPTIONS, etc.)
     allow_headers=["*"],  # Allows all headers
 )
 
