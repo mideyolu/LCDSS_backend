@@ -51,15 +51,12 @@ async def login(provider: ProviderLogin, db: AsyncSession = Depends(get_db)):
     return await AuthenticationService.login(provider, db)
 
 
-
 # **Change Password Route**
 @router.put("/change-password")
 async def change_password(
     password_data: ChangePasswordSchema, db: AsyncSession = Depends(get_db)
 ):
-    return await AuthenticationService.change_password(
-        password_data.email, password_data, db
-    )
+    return await AuthenticationService.change_password(password_data, db)
 
 
 # **Logout Route**

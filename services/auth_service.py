@@ -53,25 +53,16 @@ class AuthenticationService:
         await create_log(action="Provider logout", provider_id=provider_id, db=db)
         return {"message": "Successfully logged out"}
 
+
     @staticmethod
-    async def change_password(email: str, password_data: ChangePasswordSchema, db: AsyncSession) ->dict:
-        user = await get_record(db, Provider, provider_email=email)
+    async def change_password(
+        password_data: ChangePasswordSchema, db: AsyncSession
+    ) -> dict:
+        user = await get_record(db, Provider, provider_email=password_data.provider_email)
         if user is None:
             raise HTTPException(status_code=404, detail="User not found")
 
-        hashed_new_password = get_password_hash(password_data.new_password)
-        user.provider_password = hashed_new_password
-        await db.commit()
-        await create_log(action="Password changed", provider_id=user.provider_id, db=db)
-
-        return {"message": "Password successfully changed"}
-
-    @staticmethod
-    async def change_password(email: str, password_data: ChangePasswordSchema, db: AsyncSession)-> dict:
-        user = await get_record(db, Provider, provider_email=email)
-        if user is None:
-            raise HTTPException(status_code=404, detail="User not found")
-
+        # ✅ Remove old_password check if not needed
         hashed_new_password = get_password_hash(password_data.new_password)
         user.provider_password = hashed_new_password
         await db.commit()

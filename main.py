@@ -50,7 +50,8 @@ app = FastAPI(lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://respirix-ashy.vercel.app"
+        # "https://respirix-ashy.vercel.app"
+        "*"
     ],  # Allows all origins, change to specific URLs for production
     allow_credentials=True,
     allow_methods=[

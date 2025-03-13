@@ -1,6 +1,7 @@
 #### app/schemas.py
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 from datetime import datetime
+from typing import Optional
 
 class ProviderCreate(BaseModel):
     provider_username: str
@@ -70,5 +71,6 @@ class LogData(BaseModel):
 
 
 class ChangePasswordSchema(BaseModel):
-    email: EmailStr
-    new_password: str
+    provider_email: EmailStr
+    new_password: str = Field(..., min_length=6)
+    old_password: Optional[str] = None
