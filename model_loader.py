@@ -1,6 +1,7 @@
 # model_loader.py
 import os
 import tensorflow as tf
+import numpy as np
 
 # Disable OneDNN optimizations
 os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
@@ -19,3 +20,9 @@ async def load_model():
     model_cache["interpreter"] = interpreter
     model_cache["input_details"] = interpreter.get_input_details()
     model_cache["output_details"] = interpreter.get_output_details()
+
+    # 🔥 Run a dummy inference for warm-up
+    input_shape = model_cache["input_details"][0]["shape"]
+    dummy_input = np.zeros(input_shape, dtype=np.float32)
+    interpreter.set_tensor(model_cache["input_details"][0]["index"], dummy_input)
+    interpreter.invoke()  # Warm-up the model
