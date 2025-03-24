@@ -50,3 +50,6 @@ app.add_middleware(
 )
 
 app.include_router(route.router, tags=["Authentication"], prefix="/auth")
+
+
+

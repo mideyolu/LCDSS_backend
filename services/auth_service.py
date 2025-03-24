@@ -2,13 +2,21 @@ from fastapi import HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from models import Provider
 from schemas import ProviderCreate, ProviderLogin, ChangePasswordSchema
-from utils import get_password_hash, verify_password, create_access_token, get_record, create_log
+from utils import (
+    get_password_hash,
+    verify_password,
+    create_access_token,
+    get_record,
+    create_log,
+)
 
 
 class AuthenticationService:
     @staticmethod
     async def signup(provider: ProviderCreate, db: AsyncSession) -> dict:
-        existing_user = await get_record(db, Provider, provider_email=provider.provider_email)
+        existing_user = await get_record(
+            db, Provider, provider_email=provider.provider_email
+        )
         if existing_user:
             raise HTTPException(status_code=400, detail="Email already registered")
 
@@ -16,13 +24,15 @@ class AuthenticationService:
         new_provider = Provider(
             provider_username=provider.provider_username,
             provider_email=provider.provider_email,
-            provider_password=hashed_password
+            provider_password=hashed_password,
         )
 
         db.add(new_provider)
         await db.commit()
         await db.refresh(new_provider)
-        await create_log(action="Provider signup", provider_id=new_provider.provider_id, db=db)
+        await create_log(
+            action="Provider signup", provider_id=new_provider.provider_id, db=db
+        )
 
         return {"message": "Successful"}
 
@@ -53,12 +63,13 @@ class AuthenticationService:
         await create_log(action="Provider logout", provider_id=provider_id, db=db)
         return {"message": "Successfully logged out"}
 
-
     @staticmethod
     async def change_password(
         password_data: ChangePasswordSchema, db: AsyncSession
     ) -> dict:
-        user = await get_record(db, Provider, provider_email=password_data.provider_email)
+        user = await get_record(
+            db, Provider, provider_email=password_data.provider_email
+        )
         if user is None:
             raise HTTPException(status_code=404, detail="User not found")
 
@@ -71,7 +82,7 @@ class AuthenticationService:
         return {"message": "Password successfully changed"}
 
     @staticmethod
-    async def logout(provider_id: int, db: AsyncSession)-> dict:
+    async def logout(provider_id: int, db: AsyncSession) -> dict:
         if not provider_id:
             raise HTTPException(status_code=401, detail="Invalid provider")
 
